@@ -2,7 +2,7 @@ import subprocess
 
 def open_terminal(app_name,cmd):
     output = '[+] Executing ' + str(app_name) + '...\r\n'
-    try:  #Importante el text=True devuelve stdout y stderr como cadenas. El tipo de retorno predeterminado es bytes.
+    try:
         output += subprocess.check_output(cmd,shell=True,text=True,stderr=subprocess.STDOUT)
         output += '\r\n'
     except Exception as e:
@@ -12,7 +12,7 @@ def open_terminal(app_name,cmd):
 
 def execute_commands():
     #Execute commands in terminal
-    commands = {"list files":"ls","current directory":"pwd"}
+    commands = {"list files":"ls -ltrh","current directory":"pwd"}
     results = ''
     for key,val in commands.items():
         output = open_terminal(key,val)

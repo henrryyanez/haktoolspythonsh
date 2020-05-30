@@ -2,16 +2,16 @@ import subprocess
 
 def open_terminal(app_name,cmd):
     output = '[+] Executing ' + str(app_name) + '...\r\n'
-    try:
-        output += subprocess.check_output(cmd,shell=True,stderr=subprocess.STDOUT)
+    try:  #Importante el text=True devuelve stdout y stderr como cadenas. El tipo de retorno predeterminado es bytes.
+        output += subprocess.check_output(cmd,shell=True,text=True,stderr=subprocess.STDOUT)
         output += '\r\n'
     except Exception as e:
         output += str(e)
-    output +=  '---------------------------\r\n'
+    output +=  "---------------------------\r\n"
     return output
 
 def execute_commands():
-    #Ejecutando comandos en terminal
+    #Execute commands in terminal
     commands = {"list files":"ls","current directory":"pwd"}
     results = ''
     for key,val in commands.items():

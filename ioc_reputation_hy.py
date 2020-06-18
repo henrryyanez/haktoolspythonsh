@@ -1,4 +1,3 @@
- 
 #!/usr/bin/env python
 '''
 [HY]
@@ -14,48 +13,13 @@ __author__ = "Henrry Yanez"
 __version__ = "1.2"
 
 import requests, base64
+import socket
 import json
 import re
-
 # ================================================================
 #   TRABAJANDO CON LA API DE XFORCE --- REVISIÓN MASIVA DE IOC'S
 #   REALIZADO POR HENRRY YANEZ
 # ================================================================
-
-
-def read_lines():
-    count = 0
-    with open('target.txt') as fi:
-        for line in fi:
-            count += 1
-            v = re.match('[0-9]+(?:\.[0-9]+){3}', line.strip())
-            print(line)
-            if v:
-                # GET IP INFORMATION
-                info_ip = ibm.get_ip_info(ip_mode='report', ip=line.strip())
-                score_info = info_ip['score']
-                cats_info = info_ip['cats']
-                # GET WHOIS INFORMATION
-                response_whois = ibm.get_whois_info(entity=line.strip())
-                fecha_whois = response_whois['createdDate']
-                fecha_update = response_whois['updatedDate']
-                country_whois = response_whois.get('contactEmail')
-                registrante_whois = response_whois['registrarName']
-                print('IP1:', fecha_whois, end='')
-                print('IP2:', score_info, end='')
-            else:
-                #print('Linea', line, end='')
-                info_url = ibm.get_url_info(url_mode='report', url=line.strip())
-                score_url = info_url['result']['score']
-                cats_url = info_url['result']['cats']
-                # GET WHOIS INFORMATION
-                response_whois = ibm.get_whois_info(entity=line.strip())
-                fecha_whois = response_whois['createdDate']
-                fecha_update = response_whois['updatedDate']
-                country_whois = response_whois.get('contactEmail')
-                registrante_whois = response_whois['registrarName']
-                print('URL1:', score_url, end='')
-                print('URL2:', fecha_whois, end='')
 
 
 class IBMXForce:
@@ -130,11 +94,32 @@ class IBMXForce:
 #   INVOKE METHODS
 # ----------------------------------------------
 
-ibm = IBMXForce(api_key='XXXXXX-XXXX-XXX-XXXX-XXXXXXX', api_password='XXXXXXXX-XXXX-XXXX-XXXXX-XXXXXX') # creando el objeto para la clase IBMXForce
+ibm = IBMXForce(api_key='xxxxxx-xxx-xxxxxxxxxxxxxxxxxxxxx', api_password='xxxxxx-xxx-xxxxxxxxxxxxxxxxxxxxx') # creando el objeto para la clase IBMXForce
 
 
-#print("Valor Whois de",ip, ": ", score_info, ',', cats_info, ',' , fecha_whois, ',', country_whois, ',', fecha_update, ',', registrante_whois, ',', score_url, ',', cats_url)
+def read_lines():
+    with open('target.txt','r') as fi:
+        lines = fi.readlines()
+        for line in lines:
+            if re.match('[0-9]+(?:\.[0-9]+){3}', line.strip()) is None:
+                line = line.strip()
+                requesturl(line)
+            else:
+                line = line.strip()
+                requestip(line)
+
+def requesturl(url):
+    info_url = ibm.get_url_info(url_mode='report', url=url)
+    score_url = info_url['result']['score']
+    cats_url = info_url['result']['cats']
+    print("{},{},{}".format(url,score_url, cats_url))
+
+def requestip(ip):
+    info_ip = ibm.get_ip_info(ip_mode='report', ip=ip)
+    score_info = info_ip['score']
+    cats_info = info_ip['cats']
+    print("{},{},{}".format(ip, score_info, cats_info))
+
 
 if __name__ == '__main__':
     read_lines()
-

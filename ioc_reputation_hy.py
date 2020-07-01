@@ -14,6 +14,7 @@ __version__ = "1.2"
 
 import requests, base64
 import socket
+import configparser
 import json
 import re
 import time
@@ -36,11 +37,6 @@ def read_lines():
                 line = line.strip()
                 requestip(line)
 
-    # fo = open('reporte.txt', 'a')
-    # lines = ["Hola Mundo!\n", "Inove Escuela de codigo\n"]
-    # fo.writelines(lines)
-    # fo.flush()  # Bajar contenido a disco (RAM --> FLASH)
-    # fo.close()  # Cerrar archivo
 
 def requesturl(url):
     info_url = ibm.get_url_info(url_mode='report', url=url)
@@ -53,16 +49,10 @@ def requesturl(url):
     score_url = info_url['result']['score']
     cats_url = info_url['result']['cats']
 
-    # out_url = "".join(url,score_url, cats_url, fecha_whois, fecha_update, country_whois)
-    # print("HOLA:",out_url)
-    # fo = open('reporte.txt', 'a')
-    # fo.write(out_url)
-    # fo.flush()
-    # fo.close()
+    #out_url = (url,score_url, cats_url, fecha_whois, fecha_update, country_whois)
 
     print("{},{},{},{},{},{}".format(url,score_url, cats_url, fecha_whois, fecha_update, country_whois))
-    # outFile(url,score_url, cats_url)
-    # out_result(out_url)
+
 
 def requestip(ip):
     info_ip = ibm.get_ip_info(ip_mode='report', ip=ip)
@@ -74,13 +64,7 @@ def requestip(ip):
     # registrante_whois = response_whois['registrarName']
     score_info = info_ip['score']
     cats_info = info_ip['cats']
-
-    # out_ip = "".join(ip,score_info, cats_info, fecha_whois, fecha_update, country_whois)
-    # print("HOLA:",out_ip)
-    # fo = open('reporte.txt', 'a')
-    # fo.write(out_ip)
-    # fo.flush()
-    # fo.close()
+    out_ip = (ip,score_info, cats_info, fecha_whois, fecha_update, country_whois)
 
     print("{},{},{},{},{},{}".format(ip, score_info, cats_info, fecha_whois, fecha_update, country_whois))
 #     outFile(ip, score_info, cats_info)
@@ -91,13 +75,6 @@ def outFile():
     fo.write("IOC,SCORE_RISK,CATEGORY,FECHA_CREACION,FECHA_ACTUALIZACION,EMAIL_REGISTER")
     fo.flush()  # Bajar contenido a disco (RAM --> FLASH)
     fo.close()  # Cerrar archivo
-
-# def out_result(b):
-#     fo = open('reporte.txt', 'a')
-#     fo.write(b)
-#     # fo.flush()
-#     fo.close()
-
 
 
 class IBMXForce:
@@ -172,7 +149,15 @@ class IBMXForce:
 #   INVOKE METHODS
 # ----------------------------------------------
 
-ibm = IBMXForce(api_key='xxxxx  ;P ', api_password='xxxxxxxxxx ;P ') # creando el objeto para la clase IBMXForce
+XFORCE_API_KEY2=""
+XFORCE_API_PASS2=""
+config = configparser.ConfigParser()
+config.read('config.ini')
+XFORCE_API_KEY2 = config['DEFAULT']['XFORCE_API_KEY']
+XFORCE_API_PASS2 = config['DEFAULT']['XFORCE_API_PASS']
+
+
+ibm = IBMXForce(api_key=XFORCE_API_KEY2, api_password=XFORCE_API_PASS2) 
 
 
 if __name__ == '__main__':

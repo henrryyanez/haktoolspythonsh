@@ -40,5 +40,6 @@ By HY
 ```
 
 
-![descripcion_shodan](/vista_test.png)
+![descripcion_shodan](https://github.com/henrryyanez20/haktoolspythonsh/blob/master/proyecto_shodan/vista_test.png)
+
 Vista del programa funcionando

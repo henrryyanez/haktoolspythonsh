@@ -38,3 +38,7 @@ By HY
 
     [+] Para realizar cualquier busqueda utilizando palabras claves digita [ 2 ].
 ```
+
+
+![descripcion_shodan](/vista_test.png)
+Vista del programa funcionando

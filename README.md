@@ -2,9 +2,11 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://desplieguedigital.com)
 
-##### Esta tool busca poder consultar de manera masiva indicadores de compromiso en varias fuentes, X-Force (IBM), Whois, Virustotal, Shodan.
+##### Esta tool busca poder consultar de manera masiva indicadores de compromiso en varias fuentes, X-Force (IBM), Whois y Shodan.
+
 
 Requerimientos para consultar:
+
 - Ingresar los valores de API_KEY y API_PASSWORD dentro del archivo config.ini.
 - El archivo target.txt debe contener las URL o IP para que el programa lo consulte.
 
@@ -14,7 +16,7 @@ Requerimientos para consultar:
 $ python3 ioc_reputation_hy.py
 ```
 
-La consulta arroja el perfil de riesgo relacionado al IOC ingresado:
+La consulta arroja el perfil de riesgo relacionado al IOC ingresado gracias al consumo de la api de XFforce:
 
 Campos resutantes:
 ip,score_risk, risk_category, fecha_whois, fecha_update, country_whois

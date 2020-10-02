@@ -49,9 +49,15 @@ def requesturl(url):
     score_url = info_url['result']['score']
     cats_url = info_url['result']['cats']
 
-    #out_url = (url,score_url, cats_url, fecha_whois, fecha_update, country_whois)
-
+    out_url = (url,score_url, cats_url, fecha_whois, fecha_update, country_whois)
     print("{},{},{},{},{},{}".format(url,score_url, cats_url, fecha_whois, fecha_update, country_whois))
+
+    fo = open('reporte.txt', 'a')
+    fo.write(str(out_url))
+    fo.write("\n")
+    fo.flush()
+    fo.close()
+
 
 
 def requestip(ip):
@@ -61,20 +67,20 @@ def requestip(ip):
     fecha_whois = response_whois['createdDate']
     fecha_update = response_whois['updatedDate']
     country_whois = response_whois.get('contactEmail')
-    # registrante_whois = response_whois['registrarName']
-    score_info = info_ip['score']
-    cats_info = info_ip['cats']
+    #registrante_whois = response_whois['registrarName']
+    #score_info = info_ip['score']
+    score_info = info_ip.get("score")
+
+    #cats_info = info_ip['cats']
+    cats_info = info_ip.get('cats')
     out_ip = (ip,score_info, cats_info, fecha_whois, fecha_update, country_whois)
-
     print("{},{},{},{},{},{}".format(ip, score_info, cats_info, fecha_whois, fecha_update, country_whois))
-#     outFile(ip, score_info, cats_info)
-    # out_result(out_ip)
 
-def outFile():
-    fo = open('reporte.txt', 'w')
-    fo.write("IOC,SCORE_RISK,CATEGORY,FECHA_CREACION,FECHA_ACTUALIZACION,EMAIL_REGISTER")
-    fo.flush()  # Bajar contenido a disco (RAM --> FLASH)
-    fo.close()  # Cerrar archivo
+    fo = open('reporte.txt', 'a')
+    fo.write(str(out_ip))
+    fo.write("\n")
+    fo.flush()
+    fo.close()
 
 
 class IBMXForce:
@@ -161,5 +167,4 @@ ibm = IBMXForce(api_key=XFORCE_API_KEY2, api_password=XFORCE_API_PASS2)
 
 
 if __name__ == '__main__':
-    outFile()
     read_lines()
